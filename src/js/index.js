@@ -98,9 +98,10 @@ async function loadMore() {
 };
 
 window.addEventListener('scroll', () => {
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
+  const { clientHeight } = document.documentElement;
 
-  if (clientHeight + scrollTop >= scrollHeight - 1) {
+  if (windowRelativeBottom < clientHeight + 1) {
     loadMore();
   };
 });
