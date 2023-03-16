@@ -86,19 +86,24 @@ body {
 }
 
 .photo-card {
+  width: calc((100% - 60px) / 4);
+}
+
+.wrapper-card {
   display: flex;
   flex-direction: column;
-  width: calc((100% - 60px) / 4);
+  height: 100%;
   transition: transform 300ms linear;
 }
 
-.photo-card:hover {
+.wrapper-card:hover {
   transform: scale(1.02);
 }
 
 .info {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  flex-grow: 1;
   gap: 20px;
   padding: 10px;
 

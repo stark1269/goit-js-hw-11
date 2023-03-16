@@ -46,7 +46,7 @@ async function imagesSearch(e) {
 refs.form.addEventListener('submit', imagesSearch);
 
 function createMarkup(array) {
-  const imagesList = array.reduce(((acc, item) => acc + `<a class="photo-card" href="${item.largeImageURL}"><div>
+  const imagesList = array.reduce(((acc, item) => acc + `<a class="photo-card" href="${item.largeImageURL}"><div class="wrapper-card">
   <img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
