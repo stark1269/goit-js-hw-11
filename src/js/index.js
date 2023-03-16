@@ -84,7 +84,7 @@ async function loadMore() {
   try {
     const { data } = await getPixabay(value, page);
     const { hits } = data;
-    if (!hits.length || !value) {
+    if (!hits.length || !value.trim()) {
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
       return
     };
