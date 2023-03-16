@@ -86,7 +86,6 @@ body {
 }
 
 .photo-card {
-  /* width: calc((100% - 60px) / 4); */
   flex-basis: calc((100% - 60px) / 4);
   margin: 0 auto;
 }
