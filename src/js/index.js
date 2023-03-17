@@ -84,16 +84,13 @@ async function loadMore() {
   try {
     const { data } = await getPixabay(value, page);
     const { hits } = data;
-    if (!hits.length || !value.trim()) {
+    if (!hits.length || !value.trim() || page > 12) {
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
       return
     };
     createMarkup(hits);
   } catch (error) {
     console.log(error.message);
-    if (error.response.status === 400) {
-      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-    };
   };
 };
 
@@ -105,3 +102,12 @@ window.addEventListener('scroll', () => {
     loadMore();
   };
 });
+
+// const observer = new IntersectionObserver(callback);
+
+// function callback() {
+//   loadMore()
+// };
+
+// const latsItem = document.querySelector('.test');
+// observer.observe(latsItem);
