@@ -89,8 +89,11 @@ async function loadMore() {
   page++
   try {
     const { data } = await getPixabay(value, page, limit);
-    const { hits, totalHits } = data;
-    if (refs.gallery.children.length === totalHits || totalHits - refs.gallery.children.length <= limit) {
+    const { hits, totalHits } = data; 
+    
+    // я пока что оставлю тут костыль который рабоатет)
+    
+    if (refs.gallery.children.length === totalHits || refs.gallery.children.length === totalHits - 20) {
       observer.unobserve(lastItem);
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
       return
