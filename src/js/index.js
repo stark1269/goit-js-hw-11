@@ -12,6 +12,8 @@ const refs = {
 };
 
 let page = 1;
+let lastItem;
+const limit = 40;
 
 refs.input.addEventListener('input', debounce(() => {
   if (refs.input.value !== '') {
@@ -30,13 +32,17 @@ async function imagesSearch(e) {
 
   try {
     const { value } = refs.input;
-    const { data } = await getPixabay(value, page);
+    const { data } = await getPixabay(value, page, limit);
     const { hits } = data;
     if (!hits.length || !value.trim()) {
       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       return
     };
     createMarkup(hits);
+
+    lastItem = document.querySelector('.gallery a:last-child');
+    observer.observe(lastItem);
+
     Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
   } catch (error) {
     console.log(error.message);
@@ -82,32 +88,28 @@ async function loadMore() {
   const { value } = refs.input;
   page++
   try {
-    const { data } = await getPixabay(value, page);
-    const { hits } = data;
-    if (!hits.length || !value.trim() || page > 12) {
+    const { data } = await getPixabay(value, page, limit);
+    const { hits, totalHits } = data;
+    if (refs.gallery.children.length === totalHits || totalHits - refs.gallery.children.length <= limit) {
+      observer.unobserve(lastItem);
       Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
       return
     };
+    observer.unobserve(lastItem);
     createMarkup(hits);
+    lastItem = document.querySelector('.gallery a:last-child');
+    observer.observe(lastItem);
   } catch (error) {
     console.log(error.message);
   };
 };
 
-window.addEventListener('scroll', () => {
-  const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
-  const { clientHeight } = document.documentElement;
+const observer = new IntersectionObserver(fn);
 
-  if (windowRelativeBottom < clientHeight + 1) {
+function fn(entries) {
+  const { isIntersecting } = entries[0];
+
+  if (isIntersecting) {
     loadMore();
   };
-});
-
-// const observer = new IntersectionObserver(callback);
-
-// function callback() {
-//   loadMore()
-// };
-
-// const latsItem = document.querySelector('.test');
-// observer.observe(latsItem);
+};

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const KEY_API = '34459782-b10817d60787eb29d59e10b91';
 
-export async function getPixabay(value, page) {
+export async function getPixabay(value, page, limit) {
   return await axios({
     params: {
       key: KEY_API,
@@ -10,7 +10,7 @@ export async function getPixabay(value, page) {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
-      per_page: 40,
+      per_page: limit,
       page: page,
     },
     url: 'https://pixabay.com/api/',
